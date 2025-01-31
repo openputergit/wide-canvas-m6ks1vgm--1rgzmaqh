@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .auth-container {
+            background: linear-gradient(135deg, #6b9dc8, #4a90e2);
+        }
+        .form-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen auth-container flex items-center justify-center p-4">
+        <div class="form-container rounded-lg shadow-xl p-6 w-full max-w-md">
+            <!-- Sign In Form -->
+            <div id="signInForm" class="space-y-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Sign In</h2>
+                <div class="flex flex-col gap-4">
+                    <button class="flex items-center justify-center gap-2 p-3 border rounded-lg hover:bg-gray-50 transition-all">
+                        <i class="bi bi-google text-xl"></i>
+                        <span>Continue with Google</span>
+                    </button>
+                    <button class="flex items-center justify-center gap-2 p-3 border rounded-lg hover:bg-gray-50 transition-all">
+                        <i class="bi bi-facebook text-xl text-blue-600"></i>
+                        <span>Continue with Facebook</span>
+                    </button>
+                </div>
+                <div class="relative flex items-center">
+                    <div class="flex-grow border-t"></div>
+                    <span class="flex-shrink mx-4 text-gray-600">or</span>
+                    <div class="flex-grow border-t"></div>
+                </div>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Password</label>
+                        <div class="relative">
+                            <input type="password" id="signinPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" onclick="togglePassword('signinPassword')" class="absolute right-3 top-1/2 -translate-y-1/2">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="button" onclick="forgotPassword()" class="text-sm text-blue-600 hover:underline">Forgot Password?</button>
+                    </div>
+                    <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Sign In</button>
+                </form>
+                <p class="text-center text-sm">
+                    Don't have an account? 
+                    <button onclick="toggleForms()" class="text-blue-600 hover:underline">Sign Up</button>
+                </p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signUpForm" class="hidden space-y-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Create Account</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Create Password</label>
+                        <div class="relative">
+                            <input type="password" id="createPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" onclick="togglePassword('createPassword')" class="absolute right-3 top-1/2 -translate-y-1/2">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-3 top-1/2 -translate-y-1/2">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Sign Up</button>
+                </form>
+                <p class="text-center text-sm">
+                    Already have an account? 
+                    <button onclick="toggleForms()" class="text-blue-600 hover:underline">Sign In</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const signInForm = document.getElementById('signInForm');
+            const signUpForm = document.getElementById('signUpForm');
+            signInForm.classList.toggle('hidden');
+            signUpForm.classList.toggle('hidden');
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+
+        function forgotPassword() {
+            alert('Reset password link will be sent to your email');
+        }
+
+        // Form submission handlers
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                console.log('Form submitted:', Object.fromEntries(formData));
+                // Add your form submission logic here
+            });
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
